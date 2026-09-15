@@ -1,10 +1,12 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace StandApp.Api.Dtos;
 
 public record UpdateSetDto(
-    string Name,
+    [Required][StringLength(50)] string Name,
     TimeOnly Duration,
-    DateOnly Date,
-    string Location,
-    int? Rating,
-    string? Notes
+    [Required] DateOnly Date,
+    [StringLength(100)] string Location,
+    [Range(1,5)] int? Rating,
+    [StringLength(5000)] string? Notes
 );

@@ -6,5 +6,5 @@ public record CreateSetDto(
     [Required][StringLength(50)] string Name,
     TimeOnly Duration,
     [Required] DateOnly Date,
-    string Location
+    [StringLength(100)] string Location
 );
