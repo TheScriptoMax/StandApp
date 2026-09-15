@@ -4,7 +4,7 @@ namespace StandApp.Api.Dtos;
 
 public record UpdateSetDto(
     [Required][StringLength(50)] string Name,
-    TimeOnly Duration,
+    [Required] TimeOnly Duration,
     [Required] DateOnly Date,
     [StringLength(100)] string Location,
     [Range(1,5)] int? Rating,
