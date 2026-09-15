@@ -1,8 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace StandApp.Api.Dtos;
 
 public record CreateSetDto(
-    string Name,
+    [Required][StringLength(50)] string Name,
     TimeOnly Duration,
-    DateOnly Date,
+    [Required] DateOnly Date,
     string Location
 );
