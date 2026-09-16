@@ -1,4 +1,6 @@
-namespace StandApp.Api.Models
+using System.ComponentModel.DataAnnotations;
+
+namespace StandApp.Api.Models;
 
 public class Set
 {
@@ -10,7 +12,7 @@ public class Set
 
     public required DateOnly Date { get; set; }
 
-    public string Location { get; set; }
+    public string? Location { get; set; }
 
     public int? Rating { get; set; }
 

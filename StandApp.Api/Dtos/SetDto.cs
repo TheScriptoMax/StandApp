@@ -5,7 +5,7 @@ public record SetDto(
     string Name,
     TimeOnly Duration,
     DateOnly Date,
-    string Location,
+    string? Location,
     int? Rating,
     string? Notes
 );
