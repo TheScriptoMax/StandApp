@@ -1,81 +1,98 @@
+using Microsoft.EntityFrameworkCore;
+using StandApp.Api.Data;
 using StandApp.Api.Dtos;
+using StandApp.Api.Models;
 
 namespace StandApp.Api.Endpoints;
 
 public static class SetsEndpoints {
-    private static readonly List<SetDto> sets = [
-        new (
-            1, 
-            "Terminal", 
-            new TimeOnly(0, 5), 
-            new DateOnly(2026, 9, 2), 
-            "1875 Avenue du Mont-Royal Est, Montréal, QC",
-            null,
-            null
-            )
-    ];
-
     public static void MapSetsEndpoints(this WebApplication app)
     {
         var group = app.MapGroup("/sets");
 
         // GET /sets
-        group.MapGet("/", () => sets);
+        group.MapGet("/", async (StandAppContext dbContext) => await dbContext.Sets.Select(set => new SetDto(
+                set.Id,
+                set.Name,
+                set.Duration,
+                set.Date,
+                set.Location,
+                set.Rating,
+                set.Notes
+                )).AsNoTracking().ToListAsync());
 
         // GET /sets/:id
-        group.MapGet("/{id}", (int id) =>
+        group.MapGet("/{id}", async (int id, StandAppContext dbContext) =>
         {
-            var set = sets.Find(set => set.Id == id);
-
-            return set is null ? Results.NotFound() : Results.Ok(set);
+            var set = await dbContext.Sets.FindAsync(id);
+            return set is null ? Results.NotFound() : Results.Ok(
+                new SetDto(
+                set.Id,
+                set.Name,
+                set.Duration,
+                set.Date,
+                set.Location,
+                set.Rating,
+                set.Notes
+                )
+            );
         })
         .WithName("GetSet");
 
         // POST /sets
-        group.MapPost("/", (CreateSetDto newSet) =>
+        group.MapPost("/", async (CreateSetDto newSet, StandAppContext dbContext) =>
         {
-            SetDto set = new(
-                sets.Count + 1,
-                newSet.Name,
-                newSet.Duration,
-                newSet.Date,
-                newSet.Location,
-                null,
-                null
+            Set set = new() 
+            {
+                Name = newSet.Name,
+                Duration = newSet.Duration,
+                Date = newSet.Date,
+                Location = newSet.Location
+            };
+
+            dbContext.Add(set);
+            await dbContext.SaveChangesAsync();
+
+
+            SetDto setDto = new(
+                set.Id,
+                set.Name,
+                set.Duration,
+                set.Date,
+                set.Location,
+                set.Rating,
+                set.Notes
             );
 
-            sets.Add(set);
-
-            return Results.CreatedAtRoute("GetSet", new {id = set.Id}, set);
+            return Results.CreatedAtRoute("GetSet", new {id = setDto.Id}, setDto);
         });
 
         // PUT /sets/:id
-        group.MapPut("/{id}", (int id, UpdateSetDto updatedSet) =>
+        group.MapPut("/{id}", async (int id, UpdateSetDto updatedSet, StandAppContext dbContext) =>
         {
-            var index = sets.FindIndex(set => set.Id == id);
+            var existingSet = await dbContext.Sets.FindAsync(id);
 
-            if (index == -1)
+            if (existingSet is null)
             {
                 return Results.NotFound();
             }
 
-            sets[index] = new SetDto(
-                id,
-                updatedSet.Name,
-                updatedSet.Duration,
-                updatedSet.Date,
-                updatedSet.Location,
-                updatedSet.Rating,
-                updatedSet.Notes
-            );
+            existingSet.Name = updatedSet.Name;
+            existingSet.Duration = updatedSet.Duration;
+            existingSet.Date = updatedSet.Date;
+            existingSet.Location = updatedSet.Location;
+            existingSet.Rating = updatedSet.Rating;
+            existingSet.Notes = updatedSet.Notes;
+            
+            await dbContext.SaveChangesAsync();
 
             return Results.NoContent();
         });
 
         // DELETE /sets/:id
-        group.MapDelete("/{id}", (int id) =>
+        group.MapDelete("/{id}", async (int id, StandAppContext dbContext) =>
         {
-            sets.RemoveAll(set => set.Id == id);
+            await dbContext.Sets.Where(set => set.Id == id).ExecuteDeleteAsync();
 
             return Results.NoContent();
         });

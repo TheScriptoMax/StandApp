@@ -25,4 +25,6 @@ var app = builder.Build();
 
 app.MapSetsEndpoints();
 
+app.MigrateDb();
+
 app.Run();
