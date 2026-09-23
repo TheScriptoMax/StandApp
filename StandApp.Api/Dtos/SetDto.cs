@@ -9,7 +9,7 @@ public record SetDto(
     TimeOnly Duration,
     DateOnly Date,
     string? Location,
-    SetStatus Status,
+    string Status,
     int? Rating,
     string? Notes
 );

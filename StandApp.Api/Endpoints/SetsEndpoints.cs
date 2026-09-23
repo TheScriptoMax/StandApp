@@ -17,7 +17,7 @@ public static class SetsEndpoints {
                 set.Duration,
                 set.Date,
                 set.Location,
-                set.Status,
+                set.Status.ToString(),
                 set.Rating,
                 set.Notes
                 )).AsNoTracking().ToListAsync());
@@ -33,7 +33,7 @@ public static class SetsEndpoints {
                 set.Duration,
                 set.Date,
                 set.Location,
-                set.Status,
+                set.Status.ToString(),
                 set.Rating,
                 set.Notes
                 )
@@ -62,7 +62,7 @@ public static class SetsEndpoints {
                 set.Duration,
                 set.Date,
                 set.Location,
-                set.Status,
+                set.Status.ToString(),
                 set.Rating,
                 set.Notes
             );
