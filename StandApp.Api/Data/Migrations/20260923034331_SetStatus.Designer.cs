@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using StandApp.Api.Data;
@@ -11,9 +12,11 @@ using StandApp.Api.Data;
 namespace StandApp.Api.Data.Migrations
 {
     [DbContext(typeof(StandAppContext))]
-    partial class StandAppContextModelSnapshot : ModelSnapshot
+    [Migration("20260923034331_SetStatus")]
+    partial class SetStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -17,6 +17,7 @@ public static class SetsEndpoints {
                 set.Duration,
                 set.Date,
                 set.Location,
+                set.Status,
                 set.Rating,
                 set.Notes
                 )).AsNoTracking().ToListAsync());
@@ -32,6 +33,7 @@ public static class SetsEndpoints {
                 set.Duration,
                 set.Date,
                 set.Location,
+                set.Status,
                 set.Rating,
                 set.Notes
                 )
@@ -60,6 +62,7 @@ public static class SetsEndpoints {
                 set.Duration,
                 set.Date,
                 set.Location,
+                set.Status,
                 set.Rating,
                 set.Notes
             );
@@ -84,6 +87,29 @@ public static class SetsEndpoints {
             existingSet.Rating = updatedSet.Rating;
             existingSet.Notes = updatedSet.Notes;
             
+            await dbContext.SaveChangesAsync();
+
+            return Results.NoContent();
+        });
+
+        // PATCH /sets/:id
+        group.MapPatch("/{id}/complete", async (int id, CompleteSetDto completeSet, StandAppContext dbContext) =>
+        {
+            var existingSet = await dbContext.Sets.FindAsync(id);
+
+            if (existingSet is null)
+            {
+                return Results.NotFound();
+            }
+
+            if (existingSet.Status is SetStatus.pending)
+            {
+                existingSet.Status = SetStatus.completed;
+            }
+            
+            existingSet.Rating = completeSet.Rating;
+            existingSet.Notes = completeSet.Notes;
+
             await dbContext.SaveChangesAsync();
 
             return Results.NoContent();
