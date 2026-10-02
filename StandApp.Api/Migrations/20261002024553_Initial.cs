@@ -4,16 +4,16 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace StandApp.Api.Data.Migrations
+namespace StandApp.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Sets",
+                name: "Performances",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -22,12 +22,13 @@ namespace StandApp.Api.Data.Migrations
                     Duration = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
                     Location = table.Column<string>(type: "text", nullable: true),
+                    Status = table.Column<int>(type: "integer", nullable: false),
                     Rating = table.Column<int>(type: "integer", nullable: true),
                     Notes = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sets", x => x.Id);
+                    table.PrimaryKey("PK_Performances", x => x.Id);
                 });
         }
 
@@ -35,7 +36,7 @@ namespace StandApp.Api.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Sets");
+                name: "Performances");
         }
     }
 }

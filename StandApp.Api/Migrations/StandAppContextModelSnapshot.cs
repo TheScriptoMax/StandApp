@@ -2,21 +2,18 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using StandApp.Api.Data;
 
 #nullable disable
 
-namespace StandApp.Api.Data.Migrations
+namespace StandApp.Api.Migrations
 {
     [DbContext(typeof(StandAppContext))]
-    [Migration("20260923034331_SetStatus")]
-    partial class SetStatus
+    partial class StandAppContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +22,7 @@ namespace StandApp.Api.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("StandApp.Api.Models.Set", b =>
+            modelBuilder.Entity("StandApp.Api.Models.Performance", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -57,7 +54,7 @@ namespace StandApp.Api.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sets");
+                    b.ToTable("Performances");
                 });
 #pragma warning restore 612, 618
         }

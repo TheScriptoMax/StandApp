@@ -2,13 +2,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace StandApp.Api.Models;
 
-public enum SetStatus
+public enum PerformanceStatus
 {
     pending,
     completed
 }
 
-public class Set
+public class Performance
 {
     public int Id { get; set; }
 
@@ -20,7 +20,7 @@ public class Set
 
     public string? Location { get; set; }
 
-    public SetStatus Status { get; set; } = SetStatus.pending;
+    public PerformanceStatus Status { get; set; } = PerformanceStatus.pending;
 
     public int? Rating { get; set; }
 

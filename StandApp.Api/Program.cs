@@ -27,7 +27,7 @@ if (dbConnectionString is string)
 var app = builder.Build();
 
 
-app.MapSetsEndpoints();
+app.MapPerformancesEndpoints();
 
 app.MigrateDb();
 
